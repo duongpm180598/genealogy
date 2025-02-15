@@ -1,0 +1,150 @@
+@import './default.less';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: @font-family;
+  line-height: 1.5;
+  color: @site-text-color;
+  font-size: 14px;
+  background: #fff;
+  transition: background 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  overflow-x: hidden;
+}
+
+a {
+  transition: color 0.3s ease;
+  &:focus {
+    text-decoration: underline;
+    text-decoration-skip: ink;
+  }
+}
+
+@font-face {
+  font-family: 'Calligraphy';
+  src: url('../../assets/fonts/font-ong-do.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.content-wrapper {
+  background: @background-color;
+  &__2 {
+    padding: 0 16px;
+    min-height: 100dvh;
+    background: url('../images/hoa-van-trans.png');
+
+    .banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &__name {
+        width: 100%;
+        margin: 24px auto;
+        max-width: 810px;
+        max-height: 150px;
+        background-size: 100% 100%;
+        background-image: url('../images/banner-gia-pha.jpg');
+        background-repeat: no-repeat;
+        text-align: center;
+        h3 {
+          color: @primary-color;
+          font-size: 64px;
+          line-height: 14px;
+          font-family: Calligraphy;
+        }
+      }
+    }
+  }
+}
+.avatar-wrapper {
+  min-width: 250px;
+  min-height: 250px;
+}
+.avatar-uploader {
+  display: flex;
+  justify-content: center;
+  .ant-upload {
+    min-width: 250px;
+    min-height: 250px;
+  }
+}
+.text-title {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: @primary-color;
+}
+.card {
+  padding: 16px;
+  border-radius: 8px;
+  background: @background2-color;
+}
+.fs-14 {
+  font-size: 14px;
+}
+.fs-16 {
+  font-size: 16px;
+}
+.fs-18 {
+  font-size: 18px;
+}
+.fs-20 {
+  font-size: 20px;
+}
+.fs-24 {
+  font-size: 24px;
+}
+.fs-26 {
+  font-size: 26px;
+}
+.fs-28 {
+  font-size: 28px;
+}
+.font-normal {
+  font-weight: 400;
+}
+.font-medium {
+  font-weight: 500;
+}
+.font-bold {
+  font-weight: 700;
+}
+.flex {
+  display: flex;
+}
+.items-center {
+  align-items: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-end {
+  justify-content: end;
+}
+.gap-4 {
+  gap: 4px;
+}
+.gap-8 {
+  gap: 8px;
+}
+.gap-16 {
+  gap: 16px;
+}
+.mb-8 {
+  margin-bottom: 8px;
+}
+.mb-16 {
+  margin-bottom: 16px;
+}
+.w-full {
+  width: 100%;
+}
+.ant-btn {
+    line-height: 32px;
+}
