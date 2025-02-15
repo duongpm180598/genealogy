@@ -33,6 +33,6 @@ export const GenealogyTree = () => {
   useEffect(() => {
     fetchUsers()
   }, [])
-  if (!loading) return null
+  if (loading) return null
   return <FamilyTreeComponent data={members} />
 }
