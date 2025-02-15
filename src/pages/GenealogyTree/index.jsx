@@ -22,7 +22,6 @@ export const GenealogyTree = () => {
         birthDate: doc.birthDate ? moment(doc.birthDate).format('DD/MM/YYYY') : null,
         deathDate: doc.deathDate ? moment(doc.deathDate).format('DD/MM/YYYY') : null
       }))
-      console.log(memberList)
       setMembers(memberList)
     } catch (err) {
       console.log(err)
@@ -34,6 +33,6 @@ export const GenealogyTree = () => {
   useEffect(() => {
     fetchUsers()
   }, [])
-
+  if (!loading) return null
   return <FamilyTreeComponent data={members} />
 }

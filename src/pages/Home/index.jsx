@@ -76,7 +76,7 @@ const Home = () => {
           <Link to={`/thong-tin/${row.id}`}>
             <Button type='primary'>Thông tin</Button>
           </Link>
-          <Link to={`/sua-thong-tin/${row.id}`}>
+          <Link to={`/form-thong-tin/${row.id}`}>
             <Button color='warning' variant='solid'>
               Sửa
             </Button>

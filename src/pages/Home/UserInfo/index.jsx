@@ -40,7 +40,7 @@ export const UserInfo = () => {
   return (
     <div className='card'>
       <div className='flex items-center justify-between'>
-        <Link to={`/sua-thong-tin/${id}`}>
+        <Link to={`/form-thong-tin/${id}`}>
           <Button>
             <Edit /> Sửa thông tin
           </Button>

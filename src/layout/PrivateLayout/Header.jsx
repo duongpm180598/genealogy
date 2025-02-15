@@ -4,11 +4,13 @@ import { User } from 'lucide-react'
 import React from 'react'
 import logo from '../../assets/images/logo.png'
 import { Link } from 'react-router-dom'
+import { getUser, saveUser } from '../../services/localStorage'
 
 class Header extends React.Component {
   state = {
     menuVisible: false,
-    menuMode: 'horizontal'
+    menuMode: 'horizontal',
+    user: getUser() ? JSON.parse(getUser()) : {}
   }
 
   componentDidMount() {
@@ -20,11 +22,21 @@ class Header extends React.Component {
   render() {
     const items = [
       {
-        label: <a>Đăng xuất</a>,
+        label: (
+          <a
+            onClick={(e) => {
+              e.preventDefault()
+              saveUser('')
+              window.open('/', 'self')
+            }}
+          >
+            Đăng xuất
+          </a>
+        ),
         key: '0'
       }
     ]
-
+    const { user } = this.state
     return (
       <div id='header' className='header'>
         <Row>
@@ -43,12 +55,11 @@ class Header extends React.Component {
                 menu={{
                   items
                 }}
-                trigger={['click']}
               >
                 <a onClick={(e) => e.preventDefault()}>
                   <Space>
                     <User />
-                    09833239123
+                    {user.username}
                   </Space>
                 </a>
               </Dropdown>

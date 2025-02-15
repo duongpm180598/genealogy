@@ -1,9 +1,10 @@
 import { enquireScreen } from 'enquire-js'
 import { useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 import { Fragment } from 'react/jsx-runtime'
 import { Banner } from './Banner'
 import Header from './Header'
+import { getUser } from '../../services/localStorage'
 
 let defaultIsMobile
 
@@ -13,19 +14,8 @@ enquireScreen((b) => {
 
 export function PrivateLayout() {
   const [isMobile, setIsMobile] = useState(defaultIsMobile)
-
-  //   const isAuth = !!getAccessToken()
-  //   const [isOpenSidebar, setIsOpenSidebar] = useState(true)
-
-  //   useEffect(() => {
-  //     const handleToggleSidebar = () => setIsOpenSidebar((prev) => !prev)
-
-  //     window.addEventListener('TOGGLE_SIDEBAR', handleToggleSidebar)
-
-  //     return () => {
-  //       window.removeEventListener('TOGGLE_SIDEBAR', handleToggleSidebar)
-  //     }
-  //   }, [])
+  const user = getUser()
+  const isAuth = user && JSON.parse(user).username
 
   useEffect(() => {
     enquireScreen((b) => {
@@ -33,9 +23,9 @@ export function PrivateLayout() {
     })
   }, [])
 
-  //   if (!isAuth) {
-  //     return <Navigate to='/login' />
-  //   }
+  if (!isAuth) {
+    return <Navigate to='/login' />
+  }
   return (
     <Fragment>
       <Header isMobile={isMobile} />

@@ -3,6 +3,7 @@ import { Button, Form, Input } from 'antd'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../../../firebase'
 import { useNavigate } from 'react-router-dom'
+import { saveUser } from '../../services/localStorage'
 
 export const LoginPage = () => {
   const navigate = useNavigate()
@@ -24,12 +25,15 @@ export const LoginPage = () => {
       const userDoc = querySnapshot.docs[0]
       const userData = userDoc.data()
 
-      const isPasswordCorrect = comparePasswords(userData.password, password) // Hàm comparePasswords tự viết (sử dụng bcrypt chẳng hạn)
+      const isPasswordCorrect = comparePasswords(userData.password, password)
 
       if (!isPasswordCorrect) {
         throw new Error('Username hoặc password không chính xác')
       }
+      delete userData.password
+      delete userData.status
       // return { success: true, message: 'Đăng nhập thành công.', user: { id: userDoc.id, ...userData } } // Trả về thông tin user
+      saveUser(userData)
       navigate('/')
     } catch (error) {
       console.error('Lỗi đăng nhập:', error)
