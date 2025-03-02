@@ -1,9 +1,9 @@
-import { Col, Dropdown, Row, Space } from 'antd'
+import { Dropdown, Space } from 'antd'
 import { enquireScreen } from 'enquire-js'
 import { User } from 'lucide-react'
 import React from 'react'
-import logo from '../../assets/images/logo.png'
 import { Link } from 'react-router-dom'
+import logo from '../../assets/images/logo.png'
 import { getUser, saveUser } from '../../services/localStorage'
 
 class Header extends React.Component {
@@ -27,7 +27,7 @@ class Header extends React.Component {
             onClick={(e) => {
               e.preventDefault()
               saveUser('')
-              window.open('/', 'self')
+              window.open('/', '_self')
             }}
           >
             Đăng xuất
@@ -39,7 +39,7 @@ class Header extends React.Component {
     const { user } = this.state
     return (
       <div id='header' className='header'>
-        <Row>
+        {/* <Row>
           <Col xxl={4} xl={5} lg={8} md={8} sm={24} xs={24}>
             <Link id='logo' to='/'>
               <img src={logo} alt='logo' />
@@ -65,7 +65,30 @@ class Header extends React.Component {
               </Dropdown>
             </div>
           </Col>
-        </Row>
+        </Row> */}
+        <div className='flex items-center justify-between'>
+          <Link id='logo' to='/'>
+            <img src={logo} alt='logo' />
+          </Link>
+          <div className='flex items-center gap-16'>
+            <Link to='/'>Phả hệ</Link>
+            <Link to='/pha-do'>Phả đồ</Link>
+            <Link to='/su-kien'>Sự kiện</Link>
+            <Dropdown
+              className='menu'
+              menu={{
+                items
+              }}
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <User />
+                  {user.username}
+                </Space>
+              </a>
+            </Dropdown>
+          </div>
+        </div>
       </div>
     )
   }

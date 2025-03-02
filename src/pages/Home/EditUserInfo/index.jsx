@@ -1,10 +1,9 @@
-import { Edit, PlusCircle } from 'lucide-react'
-import { Form, Input, Button, Upload, Row, Col, Select, DatePicker, message, Divider } from 'antd'
-import { useCallback, useEffect, useState } from 'react'
-import { doc, getDoc } from 'firebase/firestore'
-import { useParams } from 'react-router-dom'
-import { db } from '../../../../firebase'
+import { Button, Col, DatePicker, Divider, Form, Input, message, Row, Select, Upload } from 'antd'
 import dayjs from 'dayjs'
+import { PlusCircle } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { getMemberById } from '../../../services/members.service'
 
 export const EditUserInfo = () => {
   const [form] = Form.useForm()
@@ -53,21 +52,12 @@ export const EditUserInfo = () => {
 
   const fetchMemberById = useCallback(async () => {
     try {
-      const memberRef = doc(db, 'members', id)
-      const docSnap = await getDoc(memberRef)
-
-      if (docSnap.exists()) {
-        const memberData = docSnap.data()
-        const member = { id: docSnap.id, ...memberData }
-        form.setFieldsValue({
-          ...member,
-          birthDate: member.birthDate ? dayjs(member.birthDate) : null,
-          deathDate: member.deathDate ? dayjs(member.deathDate) : null
-        })
-      } else {
-        console.log('No such document!')
-        return null // Trả về null nếu không tìm thấy
-      }
+      const member = await getMemberById(id)
+      form.setFieldsValue({
+        ...member,
+        birthDate: member.birthDate ? dayjs(member.birthDate) : null,
+        deathDate: member.deathDate ? dayjs(member.deathDate) : null
+      })
     } catch (error) {
       console.log(error)
     }
@@ -76,6 +66,8 @@ export const EditUserInfo = () => {
   useEffect(() => {
     fetchMemberById()
   }, [fetchMemberById])
+
+  if (loading) return null
 
   return (
     <div className='card'>
@@ -144,7 +136,7 @@ export const EditUserInfo = () => {
               </Col>
             </Row>
             <Row className='mb-16' gutter={8}>
-              <Col span={8}>
+              <Col span={4}>
                 <Form.Item label='Giới tính' name='gender' layout='vertical'>
                   <Select
                     options={[
@@ -152,6 +144,11 @@ export const EditUserInfo = () => {
                       { label: 'Nữ', value: 'famale' }
                     ]}
                   />
+                </Form.Item>
+              </Col>
+              <Col span={4}>
+                <Form.Item label='Số điện thoại' name='phone' layout='vertical'>
+                  <Input />
                 </Form.Item>
               </Col>
               <Col span={8}>

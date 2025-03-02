@@ -31,7 +31,7 @@ export const familyTreeConfig = {
   nodeTreeMenu: true,
   nodeBinding: {
     field_0: 'name',
-    field_1: 'dob',
+    field_1: 'displayBirthDate',
     img_0: 'photo'
   },
   editForm: {
@@ -44,6 +44,18 @@ export const familyTreeConfig = {
     cancelBtn: 'Hủy',
     elements: [
       { type: 'textbox', label: 'Họ và tên', binding: 'name' },
+      [
+        { type: 'textbox', label: 'Tên gọi khác', binding: 'nickname' },
+        {
+          type: 'select',
+          options: [
+            { value: 'leader', text: 'Trưởng nam' },
+            { value: 'member', text: 'Thành viên' }
+          ],
+          label: 'Vị trí',
+          binding: 'position'
+        }
+      ],
       [
         { type: 'date', label: 'Năm sinh', binding: 'birthDate' },
         { type: 'date', label: 'Năm mất', binding: 'deathDate' }
@@ -61,7 +73,8 @@ export const familyTreeConfig = {
         }
       ],
       { type: 'textbox', label: 'Địa chỉ', binding: 'address' },
-      { type: 'textbox', label: 'Ảnh đại diện', binding: 'photo', btn: 'Upload' }
+      { type: 'textbox', label: 'Ảnh đại diện', binding: 'photo', btn: 'Upload' },
+      { type: 'textbox', label: 'Mô tả', binding: 'description' }
     ],
     buttons: {
       edit: {

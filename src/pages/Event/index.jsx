@@ -1,6 +1,7 @@
 import { Button, Table } from 'antd'
 import { Fragment } from 'react'
 import '../../assets/styles/style'
+import { Link } from 'react-router-dom'
 
 const Event = () => {
   return (
@@ -41,9 +42,11 @@ const columns = [
   {
     title: 'Thao tác',
     key: 'action',
-    render: (_, record) => (
+    render: (row) => (
       <div className='flex items-center gap-8'>
-        <Button type='primary'>Thông tin</Button>
+        <Link to={`su-kien/${row._id}`}>
+          <Button type='primary'>Thông tin</Button>
+        </Link>
         <Button color='warning' variant='solid'>
           Sửa
         </Button>

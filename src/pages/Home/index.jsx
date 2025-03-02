@@ -1,12 +1,11 @@
-import { Avatar, Button, Table } from 'antd'
-import { Fragment, useEffect, useState } from 'react'
 import { UserOutlined } from '@ant-design/icons'
+import { Avatar, Button, Table } from 'antd'
+import moment from 'moment'
+import { Fragment, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import '../../assets/styles/style'
 import ConfirmModal from '../../shared/components/ConfirmModal'
-import { Link } from 'react-router-dom'
-import { db } from '../../../firebase'
-import moment from 'moment'
-import { collection, getDocs } from 'firebase/firestore'
+import { getAllMembers } from '../../services/members.service'
 
 const Home = () => {
   const [openDelete, setOpenDelete] = useState(false)
@@ -16,10 +15,7 @@ const Home = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true)
-      const membersCollection = collection(db, 'members') // Tạo reference tới collection
-      const querySnapshot = await getDocs(membersCollection) // Lấy dữ liệu
-
-      const memberList = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+      const memberList = await getAllMembers()
       setMembers(memberList)
     } catch (err) {
       console.log(err)
@@ -51,8 +47,14 @@ const Home = () => {
       render: (row) => row.name
     },
     {
+      title: 'Số điện thoại',
+      width: '120px',
+      key: 'phone',
+      render: (row) => row.phone
+    },
+    {
       title: 'Địa chỉ',
-      key: 'name',
+      key: 'address',
       render: (row) => row.address ?? '-'
     },
     {
@@ -73,10 +75,10 @@ const Home = () => {
       width: '150px',
       render: (row) => (
         <div className='flex items-center gap-8'>
-          <Link to={`/thong-tin/${row.id}`}>
+          <Link to={`/thong-tin/${row._id}`}>
             <Button type='primary'>Thông tin</Button>
           </Link>
-          <Link to={`/form-thong-tin/${row.id}`}>
+          <Link to={`/form-thong-tin/${row._id}`}>
             <Button color='warning' variant='solid'>
               Sửa
             </Button>
@@ -97,7 +99,9 @@ const Home = () => {
     <Fragment>
       <div className='card'>
         <p className='text-title font-bold fs-24'>Danh sách thành viên</p>
-        <Table columns={columns} dataSource={members} loading={loading} />
+        <div className='table-responsive'>
+          <Table columns={columns} dataSource={members} loading={loading} />
+        </div>
         <ConfirmModal
           centered
           isModalOpen={openDelete}
@@ -110,27 +114,4 @@ const Home = () => {
   )
 }
 
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer']
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser']
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    tags: ['cool', 'teacher']
-  }
-]
 export default Home

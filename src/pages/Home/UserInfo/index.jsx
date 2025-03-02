@@ -1,11 +1,10 @@
-import { Edit, PlusCircle } from 'lucide-react'
-import { Form, Input, Button, Upload, Row, Col, Select, DatePicker, message, Divider, Avatar } from 'antd'
-import { useCallback, useEffect, useState } from 'react'
 import { UserOutlined } from '@ant-design/icons'
-import { Link, useParams } from 'react-router-dom'
-import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../../../../firebase'
+import { Avatar, Button, Col, DatePicker, Divider, Form, Input, Row, Select } from 'antd'
 import dayjs from 'dayjs'
+import { Edit, PlusCircle } from 'lucide-react'
+import { useCallback, useEffect } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { getMemberById } from '../../../services/members.service'
 
 export const UserInfo = () => {
   const { id } = useParams()
@@ -13,21 +12,13 @@ export const UserInfo = () => {
 
   const fetchMemberById = useCallback(async () => {
     try {
-      const memberRef = doc(db, 'members', id)
-      const docSnap = await getDoc(memberRef)
+      const member = await getMemberById(id)
 
-      if (docSnap.exists()) {
-        const memberData = docSnap.data()
-        const member = { id: docSnap.id, ...memberData }
-        form.setFieldsValue({
-          ...member,
-          birthDate: member.birthDate ? dayjs(member.birthDate) : null,
-          deathDate: member.deathDate ? dayjs(member.deathDate) : null
-        })
-      } else {
-        console.log('No such document!')
-        return null // Trả về null nếu không tìm thấy
-      }
+      form.setFieldsValue({
+        ...member,
+        birthDate: member.birthDate ? dayjs(member.birthDate) : null,
+        deathDate: member.deathDate ? dayjs(member.deathDate) : null
+      })
     } catch (error) {
       console.log(error)
     }
@@ -101,7 +92,7 @@ export const UserInfo = () => {
               </Col>
             </Row>
             <Row className='mb-16' gutter={8}>
-              <Col span={8}>
+              <Col span={4}>
                 <Form.Item label='Giới tính' name='gender' layout='vertical'>
                   <Select
                     readOnly
@@ -110,6 +101,11 @@ export const UserInfo = () => {
                       { label: 'Nữ', value: 'famale' }
                     ]}
                   />
+                </Form.Item>
+              </Col>
+              <Col span={4}>
+                <Form.Item label='Số điện thoại' name='phone' layout='vertical'>
+                  <Input readOnly />
                 </Form.Item>
               </Col>
               <Col span={8}>

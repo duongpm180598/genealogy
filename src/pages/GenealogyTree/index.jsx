@@ -13,15 +13,18 @@ export const GenealogyTree = () => {
       setLoading(true)
       const membersCollection = collection(db, 'members') // Tạo reference tới collection
       const querySnapshot = await getDocs(membersCollection) // Lấy dữ liệu
-
-      const memberList = querySnapshot.docs.map((doc, index) => ({
-        id: index + 1,
-        ...doc.data(),
-        mid: doc.mid ?? null,
-        fid: doc.fid ?? null,
-        birthDate: doc.birthDate ? moment(doc.birthDate).format('DD/MM/YYYY') : null,
-        deathDate: doc.deathDate ? moment(doc.deathDate).format('DD/MM/YYYY') : null
-      }))
+      const memberList = querySnapshot.docs.map((docData) => {
+        const doc = docData.data()
+        return {
+          ...doc,
+          id: doc.id,
+          docId: docData.id,
+          mid: doc.mid || '',
+          fid: doc.fid || '',
+          birthDate: doc.birthDate ? moment(doc.birthDate).format('YYYY-MM-DD') : null,
+          deathDate: doc.deathDate ? moment(doc.deathDate).format('YYYY-MM-DD') : null
+        }
+      })
       setMembers(memberList)
     } catch (err) {
       console.log(err)
@@ -34,5 +37,5 @@ export const GenealogyTree = () => {
     fetchUsers()
   }, [])
   if (loading) return null
-  return <FamilyTreeComponent data={members} />
+  return <FamilyTreeComponent data={members} fetchUsers={fetchUsers} />
 }
